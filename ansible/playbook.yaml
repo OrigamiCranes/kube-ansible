@@ -1,0 +1,9 @@
+- hosts: controllers
+  become: true
+  roles:
+  - controller-setup
+
+- hosts: head-controller
+  become: true
+  roles:
+  - head-controller-join
