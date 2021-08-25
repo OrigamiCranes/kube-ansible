@@ -1,5 +1,5 @@
 - name: oci-o prequisites
-  ansible.builtin.shell: |
+  shell: |
 
     sudo modprobe overlay
     sudo modprobe br_netfilter
@@ -15,7 +15,7 @@
 
 
 - name: Install ans
-  ansible.builtin.shell: |
+  shell: |
     {
       sudo apt-get update
       sudo apt-get install -y software-properties-common
@@ -27,7 +27,7 @@
     }
 
 - name: Update registries in cri-o
-  ansible.builtin.shell: |
+  shell: |
     sudo vi /etc/crio/crio.conf
     ----
     ...
@@ -39,11 +39,11 @@
     ]
 
 - name: Restart cri-o
-  ansible.builtin.shell: |
+  shell: |
     sudo systemctl restart crio
 
 - name: Install Kubelet, kubeadm and kubectl
-  ansible.builtin.shell: |
+  shell: |
     {
       sudo apt-get install -y apt-transport-https curl
 
@@ -59,7 +59,7 @@
     }
 
 - name: Update Config
-  ansible.builtin.shell: |
+  shell: |
     cat <<EOF | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
     # Note: This dropin only works with kubeadm and kubelet v1.11+
     [Service]
@@ -86,14 +86,14 @@
     EOF
 
 - name: Restart Service
-  ansible.builtin.shell: |
+  shell: |
     {
       sudo systemctl daemon-reload
       sudo systemctl restart kubelet
     }
 
 - name: Enable HTTP Health Check
-  ansible.builtin.shell: |
+  shell: |
     {
       sudo apt-get install -y nginx
 
